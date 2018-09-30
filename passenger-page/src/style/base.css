@@ -1,0 +1,61 @@
+body,html, div, p, li, ul, button, input, h1, h2,h3,h4 {
+    margin:0;
+    padding:0;
+}
+i,b{
+  font-style: normal ! important;
+}
+a {
+    text-decoration: none;
+}
+img {
+    pointer-events: none;
+}
+li {
+    list-style: none;
+}
+body,html {
+    font-family: "PingFang SC";
+}
+html{
+    font-size: 62.5%;
+} 
+body {
+    background-color: #fff;
+    font-size: 10px ! important;
+    min-width: 320px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    
+}
+::-webkit-scrollbar{display:none; width:0; height: 0;}
+.cube-select::after{
+    display: none !important;
+}
+.listloading .cube-loading-spinners{
+    margin: 1em auto;
+  }
+  .cube-input::after{
+      display: none !important;
+  }
+  .cube-textarea-wrapper::after{
+      display: none ! important;
+  }
+  .fz14{
+    font-size: 14px;
+}
+.fz12{
+    font-size: 12px;
+}
+.c4b{
+    color: #4B4B4B;
+}
+.c74{
+    color:#747474;
+}
+.m0{
+    margin: 0;
+}
