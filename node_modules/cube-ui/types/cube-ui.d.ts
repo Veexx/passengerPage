@@ -36,6 +36,15 @@ export class BScroll {}
  */
 export function createAPI (vue: typeof Vue, Component: CubeUIComponent, events?: string[], single?: boolean) : object
 
+/** Local Module */
+export class Locale {
+  install (vue: typeof Vue): void
+  use (lang: string, messages: object): void
+}
+
+/** Style Module */
+export class Style {}
+
 // basic
 /** Button Component */
 export class Button extends CubeUIComponent {}
@@ -54,6 +63,8 @@ export class TabPanels extends CubeUIComponent {}
 export class Checkbox extends CubeUIComponent {}
 /** Checkbox Group Component */
 export class CheckboxGroup extends CubeUIComponent {}
+/** Checker Component */
+export class Checker extends CubeUIComponent {}
 /** Radio Component */
 export class Radio extends CubeUIComponent {}
 /** Radio Group Component */
@@ -76,27 +87,34 @@ export class Upload extends CubeUIComponent {}
 export class Form extends CubeUIComponent {}
 // popup
 /** Popup Component */
-export class Popup extends CubeUIComponent {}
+export class Popup extends CubeUIComponent {
+  show(): any
+  hide(): any
+  remove(): any
+}
 /** Toast Component */
-export class Toast extends CubeUIComponent {}
+export class Toast extends Popup {}
 /** Picker Component */
-export class Picker extends CubeUIComponent {}
+export class Picker extends Popup {}
 /** Cascade Picker Component */
-export class CascadePicker extends CubeUIComponent {}
+export class CascadePicker extends Popup {}
 /** Date Picker Component */
-export class DatePicker extends CubeUIComponent {}
+export class DatePicker extends Popup {}
 /** Time Picker Component */
-export class TimePicker extends CubeUIComponent {}
+export class TimePicker extends Popup {}
 /** Segment Picker Component */
-export class SegmentPicker extends CubeUIComponent {}
+export class SegmentPicker extends Popup {}
 /** Dialog Component */
-export class Dialog extends CubeUIComponent {}
+export class Dialog extends Popup {}
 /** Action Sheet Component */
-export class ActionSheet extends CubeUIComponent {}
-/** Drawer Component */
-export class Drawer extends CubeUIComponent {}
+export class ActionSheet extends Popup {}
 /** ImagePreview Component */
-export class ImagePreview extends CubeUIComponent {}
+export class ImagePreview extends Popup {}
+/** Drawer Component */
+export class Drawer extends CubeUIComponent {
+  show(): void
+  hide(): void
+}
 // scroll
 /** Scroll Component */
 export class Scroll extends CubeUIComponent {}

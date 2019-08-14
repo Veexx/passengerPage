@@ -29,7 +29,7 @@
         </slot>
       </div>
     </template>
-    <cube-button v-bind="fieldValue.props" v-else>{{fieldValue.label}}</cube-button>
+    <cube-button v-bind="fieldValue.props" v-on="fieldValue.events" v-else>{{fieldValue.label}}</cube-button>
   </div>
 </template>
 
@@ -151,10 +151,8 @@
         }
         if ((!debounceTime && debounceTime !== 0) || debounceTime < 0 || this.fieldValue.trigger === 'blur') return
         this.getValidatorModel = debounce((modelValue) => {
-          this.pending = false
-          this.validatorModel[this.validatorModelKey] = modelValue
-          this.form.updatePending()
-          this.validate()
+          this.syncValidatorValue()
+          // this.validate()
           return modelValue
         }, debounceTime, false, this.validatorModel[this.validatorModelKey])
       },
@@ -164,7 +162,7 @@
       focusOutHandler() {
         this.focused = false
         this.updateValidatorModel()
-        this.validate()
+        // this.validate()
       },
       initFocusEvents() {
         if (this.fieldValue.trigger === 'blur') {
@@ -194,6 +192,11 @@
           this.form.setPending(this.pending)
           this.originValid = undefined
         }
+      },
+      syncValidatorValue() {
+        this.pending = false
+        this.validatorModel[this.validatorModelKey] = this.modelValue
+        this.form.updatePending()
       },
       validatorChangeHandler() {
         // disabled or true to true no update validity
@@ -243,6 +246,8 @@
           const defValue = getResetValueByType(fieldValue.type)
           this.validatorDisabled = true
           resetTypeValue(this, 'modelValue', defValue)
+          // need to sync validator value too, because of trigger blur or debounce
+          this.syncValidatorValue()
           this.$refs.validator && this.$refs.validator.reset()
           this.$nextTick(() => {
             this.validatorDisabled = false

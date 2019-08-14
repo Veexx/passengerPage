@@ -3,7 +3,7 @@
  *
  * ```
  *    this.demoTest = function (client) {
- *      browser.assert.urlEquals('http://www.google.com');
+ *      browser.assert.urlEquals('https://www.google.com');
  *    };
  * ```
  *
@@ -13,9 +13,8 @@
  * @api assertions
  */
 
-var util = require('util');
+const util = require('util');
 exports.assertion = function(expected, msg) {
-
   this.message = msg || util.format('Testing if the URL equals "%s".', expected);
   this.expected = expected;
 
@@ -29,6 +28,7 @@ exports.assertion = function(expected, msg) {
 
   this.command = function(callback) {
     this.api.url(callback);
+
     return this;
   };
 
