@@ -1,7 +1,8 @@
 <template>
     <div class="chart-content">
+        <map-view></map-view>
         <div class="chart_info">
-               <div class="chartInput" @click="setorigin('from')">
+               <!-- <div class="chartInput" @click="setorigin('from')">
                       <img class="form-dot" src="../../assets/public/sendMan.svg" alt=""/>                      
                       <p class="fromView">{{from}}</p>
                 </div>
@@ -18,9 +19,9 @@
                         <img class="form-dot changePassgerDot" src="../../assets/public/passenger.svg" alt="">
                         <p>{{changePassenger}}</p>
                     </div>
-                </div>
+                </div> -->
             <!--车型-->         
-            <div class="carType">
+            <!-- <div class="carType">
                 <div class="item-cartype" @click="changeType(1)">                 
                     <img src="../../assets/public/ic_gongwu.png" alt="">
                     <p class="cartype_info" :class="{'carSelected':typeId==1}">舒适型(4座)</p>
@@ -29,16 +30,15 @@
                     <img src="../../assets/public/ic_shangwu.png" alt="">
                     <p class="cartype_info" :class="{'carSelected':typeId==2}">商务型(6座)</p>
                 </div>
-                <!-- <p class="cartprice"><i></i>元</p>
-                <p class="cartprice cartpriceset" style="color: red">价格面议</p> -->
-            </div>
+            </div> -->
         </div>
-        <div class="chartSure">
+        <!-- <div class="chartSure">
             <button type="button"  ><cube-loading v-if="canOrder" :size="14"></cube-loading> 确认包车</button>
-        </div>
+        </div> -->
     </div>
 </template>
 <script>
+import Map from '@/views/components/Map'
 export default {
     data(){
         return{
@@ -59,12 +59,13 @@ export default {
             return toplace;
         }
     },
+    components:{
+      'map-view':Map
+    },
     methods:{   
         
         changeType(index){
-
             this.typeId=index;
-
         },
         setorigin(e){
             console.log(e);
@@ -106,7 +107,13 @@ export default {
 </script>
 <style scoped>
 .chart-content{
-    margin-top: 60px;
+     width: 100%;
+     position: absolute;
+     top: 48px;
+     left: 0;
+     bottom: 0;
+     flex-direction:column;
+     display:flex;
 }
 .chart_info {
     width: 95%;

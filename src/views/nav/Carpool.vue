@@ -1,37 +1,34 @@
 <template>
     <div class="carpool-content">
-            <div class="amap-page-container">
-                  <el-amap vid="amapDemo" :dragEnable="!showline" :zoomEnable="!showline" :center="center" :zoom="zoom" :events="events" ref="map">
-                        <el-amap-marker v-for="(marker,index) in markers"   :position="marker.position"  :offset="offset"  :vid="index" :key="index" v-if="showline">
-                          <img src="../../assets/public/map_control.png" class="startmarker" :setAnimation="'AMAP_ANIMATION_BOUNCE'" v-if="marker.type=='start'">
-                          <img src="../../assets/public/endmarker.png" class="endmarker" v-else>
-                        </el-amap-marker>
-                  </el-amap>
-                  <div class="center-dot">
-                    <transition name="fade" mode="out-in">
-                       <span v-if="mapstate&&!showline" class="map_state_icon">我的位置</span>
-                    </transition>
-                    <img src="../../assets/public/map_control.png" alt="">
-                  </div>
-                  <!-- 起始点选择框 -->
-                  <div class="place-view-box" v-if="!showline">
-                    <div class="palce_item classify">
-                      <i class="more-calss"></i>
-                      <div class="main-sence sence-active">城际快线</div> 
-                      <div class="main-sence" @click="toLines('机场高铁')">机场高铁</div> 
-                      <div class="main-sence" @click="toLines('旅游专线')">旅游专线</div> 
-                    </div>
-                    <div class="palce_item from-centent" @click="setorigin('from')">
-                      <i class="from-dot"></i>
-                      <p class="from-view">{{from}}</p>
-                    </div>
-                    <div class="palce_item to-centent" @click="setorigin('to')">
-                      <i class="to-dot"></i>
-                      <p class="to-view">{{to}}</p>
-                    </div>
-                  </div>
-            </div>
-            
+          <!-- 地图组件 -->
+          <map-view></map-view>
+          <!-- 起始点选择框 -->
+          <div class="place-view-box" v-if="!showline">
+              <!-- <div class="palce_item classify">
+                <i class="more-calss"></i>
+                <div class="main-sence sence-active">城际快线</div> 
+                <div class="main-sence" @click="toLines('机场高铁')">机场高铁</div> 
+                <div class="main-sence" @click="toLines('旅游专线')">旅游专线</div> 
+              </div> -->
+              <!-- <div class="tabClick">
+                  <a href="/passenger_lines/callback/{$callback}"  class="allLines">
+                      <img src="/Theme/images/passenger/allLines.png" alt="">
+                      全部路线
+                  </a>
+              </div>  -->
+              <nav class="left">
+                <div  class="tab selected">在线约车</div>
+                <div  class="tab">电话叫车</div>
+              </nav>             
+              <div class="palce_item from-centent" @click="setorigin('from')">
+                <i class="from-dot"></i>
+                <p class="from-view">{{from}}</p>
+              </div>
+              <div class="palce_item to-centent" @click="setorigin('to')">
+                <i class="to-dot"></i>
+                <p class="to-view">{{to}}</p>
+              </div>
+            </div>            
             <select-place v-if="placecon" @cancel="cancelplace" :setype="placetype"></select-place>
             <!-- 拼车确认 -->
             <section class="confirmCarpool" v-if="showline">
@@ -39,7 +36,7 @@
                   <div class="backBtn" @click="handlerefresh">
                       <img src="../../assets/public/left.svg" alt="">
                   </div>
-                    <h5>确认预约</h5>
+                  <h5>确认预约</h5>
                 </div>
                 <div class="confirmContent">
                   <div class="item-check">                                      
@@ -86,15 +83,11 @@
                   </cube-checkbox> 
                   <cube-button :primary="true" :disabled="!checked"  @click="handelOrder">立即预约</cube-button>               
                 </div>
-
-
-
             </section>
-
     </div>
 </template>
 <script>
-
+import MapView from '@/views/components/Map'
 import Placeset from '@/views/components/Placeselect';
 export default {
   data() {
@@ -212,30 +205,6 @@ export default {
                 //  self.show=false;
             },
           },
-      // plugin: [{
-      //     position:'RB',
-      //     direction:false,
-      //     ruler:false,
-      //     locate:false,
-      //     autoPosition:false,
-      //     pName: 'ToolBar',
-      //     events: {
-      //         init(instance) {
-      //             console.log(instance);
-      //           let o=instance.geolocation;
-      //             o.getCurrentPosition((status, result) => {
-      //                 console.log(result);
-      //             if (result && result.position) {
-      //               self.lng = result.position.lng;
-      //               self.lat = result.position.lat;
-      //               self.center = [self.lng, self.lat];
-      //               self.$nextTick();
-      //             }
-      //           });
-      //         }
-      //       }
-      //     }
-      //     ]
     };
   },
   computed:{
@@ -287,7 +256,8 @@ watch: {
 
   },
     components: {
-         'select-place': Placeset
+         'select-place': Placeset,
+         'map-view':MapView
 
   },
   methods:{
@@ -379,7 +349,7 @@ watch: {
 .carpool-content{
      width: 100%;
      position: absolute;
-     top: 1.4em;
+     top: 48px;
      left: 0;
      bottom: 0;
      flex-direction:column;
@@ -539,131 +509,122 @@ watch: {
             }
         }
      }
-     .amap-page-container{
-          width: 100%;
-          height: 100%;
-          position: relative;
-          flex-direction:column;
-          display:flex;
-          #amapDemo{
-              width: 100%;
-              position: relative;
-              .startmarker,.endmarker{
-                width: 24px;
-              }
-          }
-          .center-dot{
+    .place-view-box{
+        width: 100%;
+        flex-direction:column;
+        display:flex;
+        box-shadow: 0 0 3px rgba(155, 155, 155, .9);
+        // background: #fff;
+        z-index: 2;
+        position: relative;
+        nav{
+            position: relative;
+            z-index: 1;
+            top: -40px;
+            left: 0;
+          .tab{
+            position: relative;
+            display: inline-block;
+            padding:.8em 1.2em .8em 1.8em;
+            color: inherit;
+            text-decoration: none;
+            margin: 0 -.3em;
+            text-indent: .5em;
+            font-size: 14px;
+            color: #1A1A1A;
+          } 
+          .tab::before {
+              content: ''; /* To generate the box */
               position: absolute;
-              margin: auto;
+              top: 0; 
+              right: 0; 
+              bottom: 0; 
               left: 0;
-              right: 0;
-              top: 0;
-              bottom: 0;
-              display: block;
-              width: 24px;
-              height: 24px;
-              img{
-                width: 100%;
-                margin-top: -24px;
-              }
-              .map_state_icon{
-                  position:absolute;
-                  text-align:center;
-                  line-height:2.5em;
-                  left:50%;
-                  top:50%;
-                  transform:translate(-50%,-50%);
-                  margin-top:-4.5em;
-                  width:6em;
-                  height:2.5em;
-                  background:#7e7e7e;
-                  border-radius:15px;
-                  color:#fff;
-                  font-size:1.3em;
-              }
-          }
-          .place-view-box{
-              width: 100%;
-              position: absolute;
-              bottom: 0;
-              left: 0;
-              flex-direction:column;
-              display:flex;
-              box-shadow: 0 0 3px rgba(155, 155, 155, .9);
-              background: #fff;
+              z-index: -1;
+              border-bottom: none;
+              // border-radius: .5em .5em 0 0;
+              background: #EAEAEA;
+              box-shadow: 0 .15em white inset;
+              transform: scale(1.2, 1.3) perspective(1.5em) rotateX(5deg);
+              transform-origin: bottom left;
+            }
+          .selected{
               z-index: 2;
-
-             
-              .palce_item{
-                  height: 60px;
-                  line-height: 60px;
-                  padding-left: 25px;
-              }
-              .from-centent,.to-centent{
-                padding-left: 40px;
-                position: relative;
+          }
+          .selected::before {
+              background-color: #fff;
+              margin-bottom: -.08em;
+            }
+        }
+        .palce_item{
+            height: 60px;
+            line-height: 60px;
+            min-height: 60px;
+            padding-left: 25px;
+        }
+        .from-centent,.to-centent{
+          padding-left: 40px;
+          position: relative;
+          font-size: 15px;
+          color: #676767;
+          .from-dot,.to-dot{
+            width: 8px;
+            height: 8px;
+            position: absolute;
+            left: 20px;
+            top:25px;
+            display: block;
+            border-radius:50%; 
+          }
+          .from-dot{
+              background-color: #1C73E2;
+          }
+          .to-dot{
+              background: #FC9153;
+          }
+          .from-view,.to-view{
+              height: 100%;
+              max-width: 100%;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+          }
+          .from-view{
+            border-bottom: 1px solid #efefef;
+          }
+          .to-view{
+            color: #999;
+              border-bottom: 1px solid #eee;
+          }
+        }
+        .classify{
+          .more-calss{
+              display: block;
+              width: 35px;
+              height: 35px;
+              background: url(../../assets/public/class_dot.png) no-repeat;
+              background-size: cover;
+              position: absolute;
+              right: 2em;
+              top: 1em;
+          }
+          .main-sence{
+                width: 5.5em;
+                display: inline-block;
+                height: 34px;
+                line-height: 2.5em;
+                text-align: center;
                 font-size: 15px;
                 color: #676767;
-                .from-dot,.to-dot{
-                  width: 8px;
-                  height: 8px;
-                  position: absolute;
-                  left: 20px;
-                  top:25px;
-                  display: block;
-                  border-radius:50%; 
-                }
-                .from-dot{
-                    background-color: #1C73E2;
-                }
-                .to-dot{
-                    background: #FC9153;
-                }
-                .from-view,.to-view{
-                    height: 100%;
-                    max-width: 100%;
-                    overflow: hidden;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
-                }
-                .from-view{
-                  border-bottom: 1px solid #efefef;
-                }
-                .to-view{
-                  color: #999;
-                   border-bottom: 1px solid #eee;
-                }
-              }
-              .classify{
-                .more-calss{
-                    display: block;
-                    width: 35px;
-                    height: 35px;
-                    background: url(../../assets/public/class_dot.png) no-repeat;
-                    background-size: cover;
-                    position: absolute;
-                    right: 2em;
-                    top: 1em;
-                }
-                .main-sence{
-                      width: 5.5em;
-                      display: inline-block;
-                      height: 34px;
-                      line-height: 2.5em;
-                      text-align: center;
-                      font-size: 15px;
-                      color: #676767;
-                  }
-                  .sence-active{
-                      color: #1C73E2;
-                      border-radius: 2em;
-                      border: 1px solid;
-                  }
-              }
-          }
-
-      }
+            }
+            .sence-active{
+                color: #1C73E2;
+                border-radius: 2em;
+                border: 1px solid;
+            }
+        }
+    }     
 }
-
 </style>
+
 

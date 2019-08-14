@@ -7,23 +7,16 @@ import Vuex from 'vuex'
 import AMap from 'vue-amap'
 import {
   /* eslint-disable no-unused-vars */
-  Style,  
   Button,
   ScrollNavBar,
   Checkbox,
-  // Radio,
   Input,
   Textarea,
   Select,
-  // Switch,
-  // Rate,
-  // Validator,
   Loading,
   Tip,
-  // Popup,
   Toast,
   Picker,
-  // CascadePicker,
   TimePicker,
   DatePicker,
   Dialog,
@@ -32,13 +25,10 @@ import {
   Slide,
   IndexList,
   Swipe
-  // Upload
 } from 'cube-ui'
-// import { DatetimePicker } from 'vant'
 import 'vant/lib/vant-css/index.css'
 import './style/base.css'
 import App from './App'
-// Vue.use(DatetimePicker)
 Vue.use(AMap)
 AMap.initAMapApiLoader({
   key: 'fda04b818533c6a68e833ed4e0941bf7',
@@ -50,18 +40,13 @@ Vue.use(Checkbox)
 Vue.prototype.$http = axios
 Vue.use(Button)
 Vue.use(ScrollNavBar)
-// Vue.use(Radio)
 Vue.use(Input)
 Vue.use(Textarea)
 Vue.use(Select)
-// Vue.use(Switch)
-// Vue.use(Rate)
-// Vue.use(Validator)
 Vue.use(Loading)
 Vue.use(Tip)
 Vue.use(Toast)
 Vue.use(Picker)
-// Vue.use(CascadePicker)
 Vue.use(TimePicker)
 Vue.use(Dialog)
 Vue.use(ActionSheet)
@@ -69,7 +54,6 @@ Vue.use(Scroll)
 Vue.use(Slide)
 Vue.use(IndexList)
 Vue.use(Swipe)
-// Vue.use(Upload)
 Vue.use(Vuex)
 Vue.use(DatePicker)
 Vue.config.productionTip = false

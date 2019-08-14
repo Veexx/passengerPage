@@ -150,7 +150,6 @@
     left: 0;
     z-index: 999;
     background-color: #f7f7f7;
-    /* display: none; */
 }
 .suggest-header {
     position: relative;

@@ -79,6 +79,7 @@ export default new Router({
       hidden: true
     }
   ],
+  mode: 'history',
   scrollBehavior (to, from, savedPosition) {
     return { x: 0, y: 0 }
   }
